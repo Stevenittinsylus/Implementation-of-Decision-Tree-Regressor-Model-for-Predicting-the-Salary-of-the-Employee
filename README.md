@@ -94,6 +94,54 @@ plt.show()
 
 
 ```
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
+from sklearn.tree import DecisionTreeRegressor, plot_tree
+from sklearn import metrics
+
+# Load dataset
+data = pd.read_csv("Salary_EX7.csv")
+
+# Encode categorical data
+le = LabelEncoder()
+data["Position"] = le.fit_transform(data["Position"])
+
+# Define features and target
+X = data[["Position", "Level"]]
+y = data["Salary"]
+
+# Split dataset
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=2
+)
+
+# Train model
+model = DecisionTreeRegressor()
+model.fit(X_train, y_train)
+
+# Predictions
+y_pred = model.predict(X_test)
+
+# Evaluation
+mse = metrics.mean_squared_error(y_test, y_pred)
+r2 = metrics.r2_score(y_test, y_pred)
+
+print("Mean Squared Error:", mse)
+print("R2 Score:", r2)
+
+# Predict new value
+print("Prediction for [5,6]:", model.predict([[5, 6]]))
+
+# Plot tree
+plt.figure(figsize=(20, 8))
+plot_tree(model, feature_names=X.columns, filled=True)
+plt.show()
+
+
+```
 
 ## Output:
 
